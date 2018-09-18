@@ -57,6 +57,10 @@ $(document).ready(function () {
 
     }
 
+    function generateLossDueToTimeOut() {
+        unanswered++;
+    }
+
 });
 var startMenu;
 var theClock;
