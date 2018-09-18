@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     $("body").on("click", "#startGame", function (event) {
         event.preventDefault();
-
+        
         generateHTML();
 
         timerWrapper();

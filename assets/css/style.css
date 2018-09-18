@@ -5,3 +5,17 @@
     color: #FFFFFF;
     text-align: center;
 }
+
+body {
+    background:url(../images/MarvelStudios.jpg);
+    width: 960px;
+    height: auto;
+}
+
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #F2D259;
+    border-radius: .3rem;
+    position: relative;
+}
