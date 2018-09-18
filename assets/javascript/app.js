@@ -39,7 +39,8 @@ $(document).ready(function () {
     }
 
     function generateHTML() {
-        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>30</span></p><p class='text-center'>" + questions[questionCounter] + "</p><p class='first-answer answer'>A. " + choices[questionCounter][0] + "</p><p class='answer'>B. " + choices[questionCounter][1] + "</p><p class='answer'>C. " + choices[questionCounter][2] + "</p><p class='answer'>D. " + choices[questionCounter][3] + "</p>";
+        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>15</span></p><p class='text-center'>" + questions[questionCounter] + "</p><p class='first-answer answer'>A. " + choices[questionCounter][0] + "</p><p class='answer'>B. " + choices[questionCounter][1] + "</p><p class='answer'>C. " + choices[questionCounter][2] + "</p><p class='answer'>D. " + choices[questionCounter][3] + "</p>";
+        $("#quiz").html(gameHTML);
     }
 
     function timerWrapper() {
@@ -47,7 +48,7 @@ $(document).ready(function () {
         function thirtySeconds() {
             if (timer === 0) {
                 clearInterval(theClock);
-                generateLossDueToTimeOut();
+                addLossDueToTimeOut();
             }
             if (timer > 0) {
                 timer--;
@@ -57,8 +58,11 @@ $(document).ready(function () {
 
     }
 
-    function generateLossDueToTimeOut() {
+    function addLossDueToTimeOut() {
         unanswered++;
+        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>15</span></p><p class='text-center'>" + questions[questionCounter] + "</p><p class='first-answer answer'>A. " + choices[questionCounter][0] + "</p><p class='answer'>B. " + choices[questionCounter][1] + "</p><p class='answer'>C. " + choices[questionCounter][2] + "</p><p class='answer'>D. " + choices[questionCounter][3] + "</p>";
+        $("#quiz").html(gameHTML);
+
     }
 
 });
