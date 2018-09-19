@@ -9,38 +9,35 @@ $(document).ready(function () {
 
     $("body").on("click", "#startGame", function (event) {
         event.preventDefault();
-        
+
         generateHTML();
 
         timerWrapper();
 
     }); // Closes start-button click
 
-    $("body").on("click", ".answer", function (event) {
 
-        selectedAnswer = $(this).text();
-        if (selectedAnswer === answers) {
-            clearInterval(theClock);
-            addWin();
-        }
-        else {
-            clearInterval(theClock);
-            addLoss();
-        }
-    });
 
     function addWin() {
-        correct++;
+        if (options === answers) {
+            correct++;
+            $("#quiz").html(gameHTML);
+        }
+
 
     }
 
     function addLoss() {
-        incorrect++;
+        if (options != answers) {
+            incorrect++;
+            $("#quiz").html(gameHTML);
+        }
     }
 
     function generateHTML() {
-        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>15</span></p><p class='text-center'>" + questions[questionCounter] + "</p><p class='first-answer answer'>A. " + choices[questionCounter][0] + "</p><p class='answer'>B. " + choices[questionCounter][1] + "</p><p class='answer'>C. " + choices[questionCounter][2] + "</p><p class='answer'>D. " + choices[questionCounter][3] + "</p>";
+        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'></span></p><p class='text-center'>" + questions[questionCounter] + "</p><button class='first-answer answer'>A. " + choices[questionCounter][0] + "</button><button class='answer'>B. " + choices[questionCounter][1] + "</button><button class='answer'>C. " + choices[questionCounter][2] + "</button><button class='answer'>D. " + choices[questionCounter][3] + "</button>";
         $("#quiz").html(gameHTML);
+        currentQA;
     }
 
     function timerWrapper() {
@@ -60,7 +57,7 @@ $(document).ready(function () {
 
     function addLossDueToTimeOut() {
         unanswered++;
-        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>15</span></p><p class='text-center'>" + questions[questionCounter] + "</p><p class='first-answer answer'>A. " + choices[questionCounter][0] + "</p><p class='answer'>B. " + choices[questionCounter][1] + "</p><p class='answer'>C. " + choices[questionCounter][2] + "</p><p class='answer'>D. " + choices[questionCounter][3] + "</p>";
+        gameHTML = "<p>Out of time! The correct answer is: " + answers[questionCounter] + "</p>"; 
         $("#quiz").html(gameHTML);
 
     }
