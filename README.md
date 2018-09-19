@@ -1,0 +1,1 @@
+Trivia game. Using JavaScript and jQuery, I try to answer trivia questions.
