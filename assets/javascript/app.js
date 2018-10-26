@@ -1,109 +1,148 @@
-$(document).ready(function () {
-    //function for main screen and start button
-    function mainScreen() {
-        startMenu = "<p class='text-center main-button-container'><a id='startGame' role='button'>Start Game</a></p>";
-        $("#startGame").html(startMenu);
-    }
-
-    mainScreen();
-
-    $("body").on("click", "#startGame", function (event) {
-        event.preventDefault();
-
-        generateHTML();
-
-        timerWrapper();
-
-    }); // Closes start-button click
-
-
-
-    function addWin() {
-        if (options === answers) {
-            correct++;
-            $("#quiz").html(gameHTML);
-        }
-
-
-    }
-
-    function addLoss() {
-        if (options != answers) {
-            incorrect++;
-            $("#quiz").html(gameHTML);
-        }
-    }
-
-    function generateHTML() {
-        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'></span></p><p class='text-center'>" + questions[questionCounter] + "</p><button class='first-answer answer'>A. " + choices[questionCounter][0] + "</button><button class='answer'>B. " + choices[questionCounter][1] + "</button><button class='answer'>C. " + choices[questionCounter][2] + "</button><button class='answer'>D. " + choices[questionCounter][3] + "</button>";
-        $("#quiz").html(gameHTML);
-        currentQA;
-    }
-
-    function timerWrapper() {
-        theClock = setInterval(thirtySeconds, 1000);
-        function thirtySeconds() {
-            if (timer === 0) {
-                clearInterval(theClock);
-                addLossDueToTimeOut();
-            }
-            if (timer > 0) {
-                timer--;
-            }
-            $(".timer").html(timer);
-        }
-
-    }
-
-    function addLossDueToTimeOut() {
-        unanswered++;
-        gameHTML = "<p>Out of time! The correct answer is: " + answers[questionCounter] + "</p>"; 
-        $("#quiz").html(gameHTML);
-
-    }
-
+$("#startGame").on("click", function () {
+    game.start(); //executes function listed below
 });
-var startMenu;
-var theClock;
-var gameHTML;
-var correct = 0;
-var incorrect = 0;
-var unanswered = 0;
-var currentQA = 0;
-var questionCounter = 0;
-var timer = 15;
-var timerOn = false;
-var timerId = "";
 
-var questions = [
-    "Who was the first actor cast in Iron Man?",
-    "Where was Black Panther filmed?",
-    "Who has produced every film in the Marvel Cinematic Universe?",
-    "Which scene was unscripted?",
-    "In Captain America: The Winter Soldier, who was the Smithsonian narrator?",
-    "Who replaced Edward Norton as Bruce Banner/The Hulk?",
-    "Which MCU actor shares the same name as his/her character?",
-    "Who did Peyton Reed replace as director of Ant-Man?"
-];
-var choices = [
-    ["Robert Downey Jr.", "Terrence Howard", "Jon Favreau", "Jeff Bridges"],
-    ["Atlanta, GA", "Lagos, Nigeria", "Oakland, CA", "Berlin, Germany"],
-    ["Avi Arad", "Stan Lee", "Kevin Feige", "Joss Whedon"],
-    ['"Why is Gamora?" (Avengers: Infinity War)',
+$(document).on("click", "#submit-game", function() {
+    game.over();
+});
+
+var questions = [{
+    question: "Who was the first actor cast in Iron Man?",
+    answers: ["Robert Downey Jr.", "Terrence Howard", "Jon Favreau", "Jeff Bridges"],
+    correct: "Terrence Howard"
+}, {
+    question: "Where was Black Panther filmed?",
+    answers: ["Atlanta, GA", "Lagos, Nigeria", "Oakland, CA", "Berlin, Germany"],
+    correct: "Atlanta, GA"
+}, {
+    question: "Who has produced every film in the Marvel Cinematic Universe?",
+    answers: ["Avi Arad", "Stan Lee", "Kevin Feige", "Joss Whedon"],
+    correct: "Kevin Feige"
+}, {
+    question: "Which scene was unscripted?",
+    answers: ['"Why is Gamora?" (Avengers: Infinity War)',
         '"I am Iron Man" (Iron Man)',
         "Peggy touching post-serum Steve (Captain America: The First Avenger)",
         "All of the Above"],
-    ["Gary Sinise", "Chris Evans", "Robert Redford", "Samuel L. Jackson"],
-    ["Zachary Levi", "John Slattery", "Mark Ruffalo", "Josh Brolin"],
-    ["Benedict Wong", "Georges St-Pierre", "Abraham Attah", "All of the Above"],
-    ["The Russo Brothers", "Joss Whedon", "Edgar Wright", "Jon Favreau"]
-];
-var answers = ["Terrence Howard",
-    "Atlanta, GA",
-    "Kevin Feige",
-    "All of the Above",
-    "Gary Sinise",
-    "Mark Ruffalo",
-    "All of the Above",
-    "Edgar Wright"
-];
+    correct: "All of the Above"
+}, {
+    question: "In Captain America: The Winter Soldier, who was the Smithsonian narrator?",
+    answers: ["Gary Sinise", "Chris Evans", "Robert Redford", "Samuel L. Jackson"],
+    correct: "Gary Sinise"
+}, {
+    question: "Who replaced Edward Norton as Bruce Banner/The Hulk?",
+    answers: ["Zachary Levi", "John Slattery", "Mark Ruffalo", "Josh Brolin"],
+    correct: "Mark Ruffalo"
+}, {
+    question: "Which MCU actor shares the same name as his/her character?",
+    answers: ["Benedict Wong", "Georges St-Pierre", "Abraham Attah", "All of the Above"],
+    correct: "All of the Above"
+}, {
+    question: "Who did Peyton Reed replace as director of Ant-Man?",
+    answers: ["The Russo Brothers", "Joss Whedon", "Edgar Wright", "Jon Favreau"],
+    correct: "Edgar Wright"
+}];
+
+var game = {
+    right: 0,
+    wrong: 0,
+    counter: 90,
+    countDown: function () {
+        game.counter--;
+        $("#counter").html(game.counter);
+        if (game.counter <= 0) {
+            console.log("TIME IS UP!");
+            game.over();
+        }
+    },
+    start: function () {
+        clock = setInterval(game.countDown, 1000);
+        $("#wrapGame").prepend("<h2>Time Remaining: <span id='counter'>90</span> Seconds </h2>")
+        $("#startGame").remove(); // removes start button
+        for (var i = 0; i < questions.length; i++) {
+            $("#wrapGame").append('<h2>' + questions[i].question + '</h2>');
+            for (var j = 0; j < questions[i].answers.length; j++) {
+                $("#wrapGame").append("<input type='radio' name='question-" + i + "' value='" + questions[i].answers[j] + "'>" + questions[i].answers[j]);
+            };
+        }
+        $("#wrapGame").append("<br><button id='submit-game'>Submit!</button>");
+    },
+
+    over: function () {
+        $.each($("input[name='question-0']:checked"), function() {
+            if($(this).val()==questions[0].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+
+        $.each($("input[name='question-1']:checked"), function() {
+            if($(this).val()==questions[1].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+
+        $.each($("input[name='question-2']:checked"), function() {
+            if($(this).val()==questions[2].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+
+        $.each($("input[name='question-3']:checked"), function() {
+            if($(this).val()==questions[3].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+
+        $.each($("input[name='question-4']:checked"), function() {
+            if($(this).val()==questions[4].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+
+        $.each($("input[name='question-5']:checked"), function() {
+            if($(this).val()==questions[5].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+
+        $.each($("input[name='question-6']:checked"), function() {
+            if($(this).val()==questions[6].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+
+        $.each($("input[name='question-7']:checked"), function() {
+            if($(this).val()==questions[7].correct) {
+                game.right++;
+            } else {
+                game.wrong++;
+            }
+        });
+        this.result();
+    },
+
+    result: function() {
+        clearInterval(clock);
+        $("#wrapGame h2").remove();
+
+        $("#wrapGame").html("<h2 id='gameOver'>Game Over!</h2>");
+
+        $("#wrapGame").append("<h3>Answered Right: "+this.right+"</h3>");
+        $("#wrapGame").append("<h3>Answered Wrong: "+this.wrong+"</h3>");
+        $("#wrapGame").append("<h3>Unanswered: "+(questions.length -(this.wrong+this.right))+"</h3>");
+    }
+}

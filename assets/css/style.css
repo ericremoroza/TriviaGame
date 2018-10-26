@@ -1,21 +1,36 @@
 
 #startGame,
- #submit {
-    background-color: #DC000D;
-    color: #FFFFFF;
+#submit-game {
+    background-color: #FFFFFF;
+    color: rgb(0, 0, 0);
     text-align: center;
 }
 
 body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background:url(../images/MarvelStudios.jpg);
-    width: 960px;
+    width: auto;
     height: auto;
+    align-content: center;
+    text-align: center;
 }
 
 .jumbotron {
     padding: 2rem 1rem;
     margin-bottom: 2rem;
-    background-color: #F2D259;
+    background-color: #DC000D;
+    
     border-radius: .3rem;
     position: relative;
+}
+
+#wrapGame {
+    padding: 2rem 1rem;
+    background-color: #F2D259;
+    border-radius: .3rem;
+}
+
+#gameOver {
+    font-family: Pricedown;
+    font-size: 50px;
 }
